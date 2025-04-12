@@ -11,15 +11,15 @@ export default function FarkleGame() {
   const [heldDice, setHeldDice] = useState(Array(6).fill(false))
   const [turnScore, setTurnScore] = useState(0)
   const [totalScore, setTotalScore] = useState(0)
-  const [playerScores, setPlayerScores] = useState([0])
+  const [playerScores, setPlayerScores] = useState([0, 0])
   const [currentPlayer, setCurrentPlayer] = useState(0)
   const [gameStatus, setGameStatus] = useState("Ready to start")
   const [selectedScore, setSelectedScore] = useState(0)
   const [canRoll, setCanRoll] = useState(true)
   const [hasFarkle, setHasFarkle] = useState(false)
   const [isGameOver, setIsGameOver] = useState(false)
-  const [playerCount, setPlayerCount] = useState(1)
-  const [winningScore, setWinningScore] = useState(10000)
+  const [playerCount, setPlayerCount] = useState(2)
+  const [winningScore, setWinningScore] = useState(1500)
   const [validMoves, setValidMoves] = useState([])
   const [currentRoll, setCurrentRoll] = useState([])
   const [hasSavedScoreThisTurn, setHasSavedScoreThisTurn] = useState(false)
@@ -381,24 +381,14 @@ export default function FarkleGame() {
     setHasSavedScoreThisTurn(false)
   }
 
-  // Start a new game
   const startNewGame = () => {
-    setPlayerScores(Array(playerCount).fill(0))
+    setPlayerScores([0, 0])
     setCurrentPlayer(0)
     resetTurn()
     setIsGameOver(false)
     setGameStatus("Game started! Player 1's turn")
   }
 
-  // Change the number of players
-  const changePlayerCount = (count) => {
-    if (count >= 1 && count <= 6) {
-      setPlayerCount(count)
-      setPlayerScores(Array(count).fill(0))
-    }
-  }
-
-  // Change the winning score
   const changeWinningScore = (score) => {
     if (score >= 1000) {
       setWinningScore(score)
@@ -440,7 +430,6 @@ export default function FarkleGame() {
     )
   }
 
-  // Game settings
   const renderGameSettings = () => {
     if (gameStatus !== "Ready to start") return null
 
@@ -450,24 +439,15 @@ export default function FarkleGame() {
 
         <div className="flex flex-col gap-4">
           <div>
-            <label className="block mb-1">Number of Players:</label>
-            <div className="flex flex-wrap gap-2">
-              {[1, 2, 3, 4, 5, 6].map((num) => (
-                <button
-                  key={num}
-                  className={`px-3 py-1 rounded ${playerCount === num ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-                  onClick={() => changePlayerCount(num)}
-                >
-                  {num}
-                </button>
-              ))}
-            </div>
+            <label className="block mb-1">
+              Number of Players: <span className="font-semibold">2</span> (Fixed)
+            </label>
           </div>
 
           <div>
             <label className="block mb-1">Winning Score:</label>
             <div className="flex flex-wrap gap-2">
-              {[5000, 10000, 15000, 20000].map((score) => (
+              {[1500, 5000, 10000, 15000].map((score) => (
                 <button
                   key={score}
                   className={`px-3 py-1 rounded ${winningScore === score ? "bg-blue-500 text-white" : "bg-gray-200"}`}
@@ -492,7 +472,7 @@ export default function FarkleGame() {
 
   return (
     <div className="p-4 bg-gray-100 rounded-lg max-w-4xl mx-auto shadow-lg">
-      <h1 className="text-3xl font-bold text-center mb-4">Farkle Dice Game</h1>
+      <h1 className="text-3xl font-bold text-center mb-4">Farkle Dice Game (2-Player)</h1>
 
       {/* Game rules */}
       <div className="mb-4 p-3 bg-blue-50 rounded-lg text-sm">
